@@ -1,11 +1,13 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import Input from "./Input";
+import Label from "./Label";
 
 const MailboxForm = (props) => {
   const navigate = useNavigate();
   const [newMailbox, setNewMailbox] = useState({
     _id: "",
-    boxSize: "",
+    boxSize: "small",
     boxholder: "",
   });
 
@@ -16,25 +18,23 @@ const MailboxForm = (props) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log(newMailbox);
     props.addBox(newMailbox); //enter ID number.
-    setNewMailbox({ _id: "", boxSize: "", boxholder: "" });
+    setNewMailbox({ _id: "", boxSize: "small", boxholder: "" });
     navigate("/Mailboxes");
   };
 
   return (
     <form>
-      <h2>New Mailbox</h2>
-      <label htmlFor="boxholder-name">Enter a Boxholder:</label>
-      <input
+      <h1>New Mailbox</h1>
+      <Label htmlFor="boxholder-name">Enter a Boxholder:</Label>
+      <Input
         name="boxholder-name"
         id="boxholder"
-        type="text"
         placeholder="Boxholder name"
         value={newMailbox.boxholder}
         onChange={handleChange}
       />
-      <label htmlFor="box-size">Select a Box Size</label>
+      <Label htmlFor="box-size">Select a Box Size</Label>
       <select
         name="box-size"
         id="boxSize"
@@ -45,7 +45,9 @@ const MailboxForm = (props) => {
         <option value="medium">Medium</option>
         <option value="large">Large</option>
       </select>
-      <button onClick={handleSubmit}>Submit</button>
+      <button onClick={handleSubmit} disabled={!newMailbox.boxholder}>
+        Submit
+      </button>
     </form>
   );
 };

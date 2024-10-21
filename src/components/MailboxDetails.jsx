@@ -8,14 +8,25 @@ const MailboxDetails = (props) => {
     (mailbox) => mailbox._id === Number(mailboxId)
   );
 
+  const selectedLetters = props.letters.filter(
+    (letter) => letter.mailboxId === Number(mailboxId)
+  );
+
   return (
-    <div className="mail-box">
+    <div>
       <h1>Mailbox {selectedBox._id}</h1>
+      <br />
       <h3>Details</h3>
-      <dt>Boxholder:</dt>
-      <dd>{selectedBox.boxholder}</dd>
-      <dt>Box Size:</dt>
-      <dd>{selectedBox.boxSize}</dd>
+      <br />
+      <p>Boxholder: {selectedBox.boxholder}</p>
+      <p>Box Size: {selectedBox.boxSize}</p>
+      <h1>Letters</h1>
+      <br />
+      {selectedLetters.length > 0 ? (
+        selectedLetters.map((letter, idx) => <p key={idx}>{letter.message}</p>)
+      ) : (
+        <p>No letters found</p>
+      )}
     </div>
   );
 };
