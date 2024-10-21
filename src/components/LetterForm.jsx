@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Input from "./Input";
 import Label from "./Label";
 import { useNavigate } from "react-router-dom";
@@ -34,6 +34,24 @@ const LetterForm = (props) => {
     navigate(`/mailboxes/${newLetter.mailboxId}`);
     setNewLetter({ mailboxId: 0, recipient: "", message: "" });
   };
+
+  useEffect(() => {
+    console.log(props.mailboxes);
+    if (props.mailboxes && props.mailboxes.length > 0) {
+      const selectedMailbox = props.mailboxes.find((mailbox) => {
+        return mailbox._id === newLetter.mailboxId;
+      });
+
+      if (selectedMailbox) {
+        setNewLetter((prevNewLetter) => ({
+          ...prevNewLetter,
+          recipient: selectedMailbox.boxholder,
+        }));
+      } else {
+        console.log("no selectMailbox match found");
+      }
+    }
+  }, [newLetter.mailboxId]);
 
   return (
     <>
